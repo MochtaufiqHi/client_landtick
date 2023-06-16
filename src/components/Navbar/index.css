@@ -1,0 +1,38 @@
+.navbar-container {
+  /* padding: 0px !important; */
+  /* margin:0px !important; */
+  margin-top: 55px;
+}
+.login-button {
+  background: linear-gradient(90deg, #EC7AB7 -0.6%, #EC7A7A 100%);
+  border-radius: 5px;
+  border-color: white;
+  font-weight: bold;
+  color: white;
+}
+.login-daftar {
+  background-color: white;
+  border-color: #ec7ab7;
+  color: #ec7ab7;
+  font-weight: bold;
+  margin-right: 20px;
+}
+.navbar-navbar-container {
+  margin: 0px !important;
+  padding: 0px;
+  height: 60px !important;
+}
+.boy{
+  background: linear-gradient(90deg, #EC7AB7 -0.6%, #EC7A7A 100%);
+  width: 45px;
+  height: 45px;
+  /* align-items: center; */
+  border-radius: 100px;
+}
+.nama-navbar{
+  color: #EC7AB7;
+  font-size: 24px;
+  font-weight: 500;
+  margin-right: 14px;
+  margin-top: 4px;
+}

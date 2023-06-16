@@ -1,0 +1,34 @@
+.login-modal {
+  width: 360px;
+  margin: 2px auto;
+}
+
+.label-login {
+  color: #ec7ab7;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.input-login {
+  width: 90%;
+  margin: 10px auto;
+}
+
+.button-login {
+  width: 90%;
+  border-radius: 20px;
+  margin: 10px auto;
+  background-image: linear-gradient(180deg, #EC7AB7 0%, #EC7A7A 100%);
+  font-weight: 900;
+  border: none;
+}
+
+.text-belum-login {
+  margin: 2px auto;
+  justify-content: center;
+  opacity: 40%;
+}
+.text-option{
+  opacity: 60%;
+  color: #EC7A7A;
+}

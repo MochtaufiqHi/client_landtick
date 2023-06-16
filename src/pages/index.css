@@ -1,0 +1,193 @@
+.login-button-filter {
+  background: linear-gradient(90deg, #EC7AB7 -0.6%, #EC7A7A 100%);
+  border-radius: 5px;
+  border-color: white;
+  font-weight: bold;
+  color: white;
+  margin-top: 32px;
+}
+.label-form-input {
+font-weight: 800; 
+font-size: 18px;
+}
+.button-transfer {
+  background-color: #EC7AB7 ;
+  border: #EC7A7A;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+}
+.container-button {
+  margin-top: 84px;
+  margin-left: 4px;
+}
+
+.card-filter {
+  position: relative;
+  top: 10px;
+}
+.footer {
+  height: 40px;
+  margin-top: 20px;
+  background: linear-gradient(90deg, #EC7AB7 -0.6%, #EC7A7A 100%);
+}
+.footer-font{
+  margin-bottom: 0px !important;
+}
+.text-satu, .text-harga {
+  margin-bottom: 0px !important;
+  margin-top: 30px;
+  font-weight: 900;
+  font-size: 18px;
+}
+.text-harga {
+  color: #EC7A7A;
+}
+.text-dua {
+  margin-top: 0px !important;
+  margin-bottom: 30px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #b7b7b7;
+}
+.tiket-saya-text {
+  font-weight: 400;
+  font-size: 36px;
+}
+.img-kereta {
+  background: linear-gradient(90deg, #EC7AB7 -0.6%, #EC7A7A 100%);
+  border-radius: 5px 5px 244px 5px;
+}
+.nama-kereta {
+  font-weight: 800;
+  font-size: 24px;
+  margin: 10px 32px 0px!important;
+}
+.kelas-kereta {
+  font-size: 14px;
+  margin: 0px 32px !important;
+}
+.status {
+  font-weight: 500;
+  font-size: 12px;
+  margin: 18px 32px !important;
+}
+.text-item {
+  margin: 0px !important;
+  font-size: 18px;
+  font-weight: 600;
+}
+.tgl-item {
+  color: #959595;
+  font-size: 14px;
+}
+.date-tiket {
+  font-size: 36px;
+  margin: 0px !important;
+  align-items: left;
+}
+.date-tikett {
+  /* font-weight: 800; */
+  font-size: 18px;
+  color: #878787;
+}
+.tabel-info {
+  /* margin-left: 24px !important; */
+  /* background-color: #EC7A7A; */
+  font-weight: 400;
+  font-size: 18px;
+  border-bottom: 1px solid rgb(144, 144, 144);
+
+}
+.tabel-info-info {
+  border-bottom: 1px solid  rgb(144, 144, 144);
+  font-size: 18px;
+  margin-left: 24px !important;
+  font-weight: 400;
+}
+.item-info-info {
+  margin-left: 24px !important;
+  font-weight: 400;
+  font-size: 18px;
+  color: #b1b1b1;
+}
+.item-info {
+  font-weight: 400;
+  font-size: 18px;
+  color: #b1b1b1;
+}
+.btn-bayar {
+  border-radius: 5px;
+  border: white;
+  background: linear-gradient(90deg, #EC7AB7 -0.6%, #EC7A7A 100%);
+  margin-top: 30px;
+  margin-left: 50px;
+}
+.warning-tiket {
+  background-color: #eee;
+}
+.err-text {
+  font-weight: 400;
+  font-size: 18px;
+}
+.p-text {
+  margin-right: 20px;
+  font-size: 18px;
+
+}
+.ini-tabel {
+  border-bottom: 1px solid rgb(194, 194, 194);
+}
+.p-text-p {
+  margin-right: 20px;
+
+  font-weight: 400;
+  font-size: 18px;
+  color: #b1b1b1;
+}
+.item-logo-kereta {
+  background: linear-gradient(90deg, #EC7AB7 -0.6%, #EC7A7A 100%);
+  width: 200px;
+  border-radius: 5px 5px 100px 5px;
+  margin-bottom: 40px;
+}
+.rincian-harga{
+  font-weight: 400;
+  font-size: 36px;
+  margin-top: 22px;
+}
+.payment-total {
+  border-radius: 0px 0px 5px 5px;
+  background-color: #e6e6e6 !important;
+}
+.payment-text {
+  font-weight: 400;
+  font-size: 24px;
+}
+.payment-price {
+  font-size: 24px;
+  font-weight: 800;
+}
+.kereta-text{
+  font-weight: 900;
+  font-size: 36px;
+}
+.tanggal-bayar{
+  font-weight: 300;
+  font-size: 18px;
+}
+.hari-bayar{
+  color: #878787;
+  font-weight: 800;
+}
+.kireteria {
+  background-color: #d0d0d0;
+}
+.nama-keretaku{
+  font-weight: 900;
+  font-size: 36px;
+  margin: 0px;
+}
+.content-table{
+  border-bottom: solid 1px rgb(156, 149, 149);
+}
