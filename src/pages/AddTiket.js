@@ -4,6 +4,8 @@ import { API } from "../config/api";
 import { useMutation } from "react-query";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+// import axios from "axios";
 
 function AddTiket() {
   let navigate = useNavigate()
@@ -64,7 +66,12 @@ function AddTiket() {
       const response = await API.post("/tiket", formData, config)
       console.log("Tambah tiket berhasil : ", response)
 
-      navigate("/")
+      navigate("/list-transaction")
+      Swal.fire(
+        'Berhasil',
+        'Tket telah dibuat',
+        'success'
+      )
     } catch (error) {
       console.log("tambah tiket gagal :", error)
     }
@@ -74,7 +81,25 @@ function AddTiket() {
     getKelas()
   }, [])
 
-  console.log(form)
+  const [stasiuns, setStasiuns] = useState()
+
+  let {data : stasiun} = useQuery("stasiunCache", async () => {
+    const response = await API.get('/station')
+    setStasiuns(response.data.data)
+    return response.data.data
+  })
+
+  const [train, setTrain] = useState()
+
+  let {data : trains} = useQuery("trainCache", async () => {
+    const response = await API.get('/train')
+    setTrain(response.data.data)
+    return response.data.data
+  })
+
+  // console.log(train)
+
+  // console.log(form)
 
   return (
     <>
@@ -94,55 +119,66 @@ function AddTiket() {
               type="input"
               placeholder="Nama Kereta"
               onChange={handleChange}
-            />
-          </Form.Group>
+              style={{color:"grey"}}
 
-          <Form.Group className="mb-3">
-            <Form.Control
-              name="train_id"
-              type="input"
-              placeholder="Jenis Kereta"
-              onChange={handleChange}
             />
           </Form.Group>
-          {/* <Form.Group className="mb-3">
+          <Form.Group className="mb-3">
             <Form.Select 
               aria-label="Default select example" 
               name="train_id" 
               onChange={handleChange}
+              style={{color:"grey"}}
+
             >
-              {kelas.map((item, index) => {
+              <option >Kelas Kereta</option>
+              {train?.map((item, index) => {
                 return (
                   <option value={item.id}>
                     {item.name}
                   </option>
                 )
               })}
-
-              {/* <option>Jenis Kereta</option>
-              <option value="1">1</option>
-              <option value="2">1</option>
-              <option value="3">1</option>
             </Form.Select>
-          </Form.Group> */}
+          </Form.Group> 
 
           <Form.Group className="mb-3">
             <Form.Control
-              type="input"
+              type="date"
               name="tgl_berangkat"
               placeholder="Tanggal Keberangkatan"
               onChange={handleChange}
+              style={{color:"grey"}}
+
             />
           </Form.Group>
 
-          <Form.Group className="mb-3">
+          {/* <Form.Group className="mb-3">
             <Form.Control
               type="input"
               name="sts_berangkat"
               placeholder="Stasiun Keberangkatan"
               onChange={handleChange}
             />
-          </Form.Group>
+          </Form.Group> */}
+
+          <Form.Group className="mb-3">
+            <Form.Select 
+              aria-label="Default select example" 
+              name="sts_berangkat" 
+              style={{color:"grey"}}
+              onChange={handleChange}
+            >
+              <option >Stasiun Keberangkatan</option>
+              {stasiuns?.map((item, index) => {
+                return (
+                  <option value={item.name}>
+                    {item.name}
+                  </option>
+                )
+              })}
+            </Form.Select>
+          </Form.Group> 
 
           <Form.Group className="mb-3">
             <Form.Control
@@ -150,17 +186,38 @@ function AddTiket() {
               name="jam_berangkat"
               placeholder="Jam Keberangkatan"
               onChange={handleChange}
+              style={{color:"grey"}}
+
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Control
               type="input"
               name="sts_tujuan"
               placeholder="Stasiun Tujuan"
                onChange={handleChange}
             />
-          </Form.Group>
+          </Form.Group> */}
+
+          <Form.Group className="mb-3">
+            <Form.Select 
+              aria-label="Default select example" 
+              name="sts_tujuan" 
+              onChange={handleChange}
+              variant="secondary"
+              style={{color:"grey"}}
+            >
+              <option >Stasiun Tujuan</option>
+              {stasiuns?.map((item, index) => {
+                return (
+                  <option value={item.name}>
+                    {item.name}
+                  </option>
+                )
+              })}
+            </Form.Select>
+          </Form.Group> 
 
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Control
@@ -168,6 +225,8 @@ function AddTiket() {
               name="jam_tiba"
               placeholder="Jam Tiba"
               onChange={handleChange}
+              style={{color:"grey"}}
+
             />
           </Form.Group>
 
@@ -177,6 +236,8 @@ function AddTiket() {
               name="harga"
               placeholder="Harga Tiket"
               onChange={handleChange}
+              style={{color:"grey"}}
+
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -185,6 +246,8 @@ function AddTiket() {
               name="qty"
               placeholder="Qty"
               onChange={handleChange}
+              style={{color:"grey"}}
+
             />
           </Form.Group>
 

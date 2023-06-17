@@ -43,7 +43,7 @@ function DropdownUser(props) {
             </Link>
           </div>
         </Dropdown.Item>
-        <Dropdown.Item className='d-flex'>
+        {/* <Dropdown.Item className='d-flex'>
           <div className='d-flex'>
             <Link to="/payment" >
               <img src={bill} alt="user profile" style={{objectFit:"contain"}}/>
@@ -52,7 +52,7 @@ function DropdownUser(props) {
               <p className='mx-3 mt-2 text-secondary'>Payment</p>
             </Link>
           </div>
-        </Dropdown.Item>
+        </Dropdown.Item> */}
         <Dropdown.Item className='d-flex' style={{borderTop:"2px solid #ec7ab7"}}>
           <div className='d-flex mt-3'>
             <Link 

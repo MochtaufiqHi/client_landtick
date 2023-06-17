@@ -269,7 +269,7 @@ function Home({ handle }) {
       {tiket?.filter((item) => {
         if (asal == "" && tujuan == "" && tanggal == "") {
           return item
-        } else if (item?.stasiun_awal.toLowerCase().includes(asal.toLocaleLowerCase()) && item?.stasiun_akhir.toLowerCase().includes(tujuan.toLocaleLowerCase()) && item?.tanggal.toLowerCase().includes(tanggal.toLocaleLowerCase())){
+        } else if (item?.stasiun_awal.toLowerCase().includes(asal.toLowerCase()) && item?.stasiun_akhir.toLowerCase().includes(tujuan.toLowerCase()) && item?.tanggal.toLowerCase().includes(tanggal.toLowerCase())){
           return item
         }
       })?.map((item, index) => {

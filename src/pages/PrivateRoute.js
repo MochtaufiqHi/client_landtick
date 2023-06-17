@@ -15,7 +15,7 @@ export function PrivateRouteUser() {
   const [state] = useContext(UserContext)
 
   if(state.user.role === "admin") {
-    return <Navigate to="/transaction" />
+    return <Navigate to="/list-transaction" />
   }
 
   return <Outlet/>
@@ -24,7 +24,7 @@ export function PrivateRouteUser() {
 export function PrivateRouteAdmin() {
   const [state] = useContext(UserContext)
 
-  if(state.user.isLogin !== "admin") {
+  if(state.user.role !== "admin") {
     return <Navigate to="/" />
   }
 

@@ -69,10 +69,21 @@ function Payment({perhitungan}) {
 
   var total = pulangPergi*(tikets?.harga*perhitungan?.dewasa + tikets?.harga*1/2*perhitungan?.balita)
 
-  // console.log(pulangPergi)
-  // console.log(perhitungan?.pp)
-  // console.log(perhitungan?.dewasa)
-  // console.log(perhitungan?.balita)
+  const [dataStasiun, setDataStasiun] = useState()
+
+    let {data : stasiunOK} = useQuery("stasiiiunnnCache", async () => {
+      const response = await API.get("/station/" + tikets?.stasiun_awal)
+      setDataStasiun(response.data.data)
+      return response.data.data
+    })
+
+    const [dataStasiunAkhir, setDataStasiunAkhir] = useState()
+
+    let {data : stasiunAkhir} = useQuery("stasiiiiunnCache", async () => {
+      const response = await API.get("/station/" + tikets?.stasiun_akhir)
+      setDataStasiunAkhir(response.data.data)
+      return response.data.data
+    })
 
   return (
     <>
@@ -136,7 +147,7 @@ function Payment({perhitungan}) {
               <div className="kireteria d-flex justify-content-between p-4">
                 <div className="">
                   <p className="kereta-text">Kereta Api</p>
-                  <p className="tanggal-berangkat" style={{color:"#878787"}}><span className="hari-bayar">Saturday</span>, 21 Februari 2023</p>
+                  <p className="tanggal-berangkat" style={{color:"#878787"}}><span className="hari-bayar">Saturday</span>, {tikets?.tanggal}</p>
                 </div>
                 <div className="">
 
@@ -156,7 +167,7 @@ function Payment({perhitungan}) {
               </div>
               <div style={{marginLeft:"20px"}}>
                 <p className='text-item'>{tikets?.jam_berangkat}</p>
-                <p className='tgl-item'>21 Februari 2023</p>
+                <p className='tgl-item'>{tikets?.tanggal}</p>
               </div>
             </div>
             <div className='d-flex my-2'>
@@ -165,20 +176,20 @@ function Payment({perhitungan}) {
               </div>
               <div style={{marginLeft:"20px", marginTop:"10px"}}>
                 <p className='text-item'>{tikets?.jam_tiba}</p>
-                <p className='tgl-item'>21 Februari 2023</p>
+                <p className='tgl-item'>{tikets?.tanggal}</p>
               </div>
             </div>
           </div>
           <div className='col-6'>
           <div className='d-flex mt-5'>
               <div>
-                <p className='text-item'>Jakarta (GMR)</p>
+                <p className='text-item'>{dataStasiun?.kota} ({dataStasiun?.code})</p>
                 <p className='tgl-item'>{tikets?.stasiun_awal}</p>
               </div>
             </div>
             <div className='d-flex my-2'>
               <div style={{marginTop:"10px"}}>
-                <p className='text-item'>Garut (GRT)</p>
+                <p className='text-item'>{dataStasiunAkhir?.kota} ({dataStasiunAkhir?.code})</p>
                 <p className='tgl-item'>{tikets?.stasiun_akhir}</p>
               </div>
             </div>

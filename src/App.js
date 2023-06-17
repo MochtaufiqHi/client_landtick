@@ -56,6 +56,7 @@ function App() {
         type: 'USER_SUCCESS',
         payload,
       })
+      setIsLoading(false)
     } catch (error) {
       console.log("check user failed : ", error)
       dispatch({
@@ -69,17 +70,17 @@ function App() {
       <Navigation />
       <Routes>
         <Route exact path="/" element={<Home handle={handleHarga} />} />
-        {/* <Route element={<PrivateRouteLogin />}> */}
-          {/* <Route element={<PrivateRouteUser />}> */}
+        <Route element={<PrivateRouteLogin />}>
+          <Route element={<PrivateRouteUser />}>
             <Route exact path="/tiket-saya/:id" element={<TiketSaya />} />
             <Route exact path="/tiket" element={<Tiket />} />
             <Route exact path="/payment/:id" element={<Payment perhitungan={perhitungan}/>} />
-          {/* </Route> */}
-        {/* </Route> */}
-          {/* <Route element={<PrivateRouteUser />}> */}
+          </Route>
+          <Route element={<PrivateRouteAdmin />}>
             <Route exact path="/list-transaction" element={<ListTransaction />}/>
             <Route exact path="/add-tiket" element={<AddTiket />} />
-          {/* </Route> */}
+          </Route>
+        </Route>
       </Routes>
     </>
   );

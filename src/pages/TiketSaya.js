@@ -51,7 +51,33 @@ Swal.fire({
 })
   }
 
-  // console.log(user)
+    const [dataStasiun, setDataStasiun] = useState()
+
+    let {data : stasiunOK} = useQuery("stasiunnnCache", async () => {
+      const response = await API.get("/station/" + tikets?.stasiun_awal)
+      setDataStasiun(response.data.data)
+      return response.data.data
+    })
+
+    const [dataStasiunAkhir, setDataStasiunAkhir] = useState()
+
+    let {data : stasiunAkhir} = useQuery("stasiunnCache", async () => {
+      const response = await API.get("/station/" + tikets?.stasiun_akhir)
+      setDataStasiunAkhir(response.data.data)
+      return response.data.data
+    })
+
+    // console.log(dataStasiun)
+    // console.log(dataStasiunAkhir)
+
+    const [kota, setKota] = useState()
+    let {data: kotas} = useQuery("kotaCache", async () => {
+      const response = await API.get("/station")
+      setKota(response.data.data)
+      return response.data.data
+    })
+
+    console.log(kotas)
   return (
     <>
     <div className="container mt-5">
@@ -73,7 +99,7 @@ Swal.fire({
               </div>
               <div style={{marginLeft:"20px"}}>
                 <p className='text-item'>{tikets?.jam_berangkat}</p>
-                <p className='tgl-item'>21 Februari 2023</p>
+                <p className='tgl-item'>{tiket?.tanggal}</p>
               </div>
             </div>
             <div className='d-flex my-2'>
@@ -82,20 +108,20 @@ Swal.fire({
               </div>
               <div style={{marginLeft:"20px", marginTop:"10px"}}>
                 <p className='text-item'>{tikets?.jam_tiba  }</p>
-                <p className='tgl-item'>21 Februari 2023</p>
+                <p className='tgl-item'>{tiket?.tanggal}</p>
               </div>
             </div>
           </div>
           <div className='col-3'>
           <div className='d-flex mt-5'>
               <div>
-                <p className='text-item'>Jakarta (GMR)</p>
+                <p className='text-item'>{dataStasiun?.kota} ({dataStasiun?.code})</p>
                 <p className='tgl-item'>{tikets?.stasiun_awal}</p>
               </div>
             </div>
             <div className='d-flex my-2'>
               <div style={{marginTop:"10px"}}>
-                <p className='text-item'>Garut (GRT)</p>
+                <p className='text-item'>{dataStasiunAkhir?.kota} ({dataStasiunAkhir?.code})</p>
                 <p className='tgl-item'>{tikets?.stasiun_akhir}</p>
               </div>
             </div>
@@ -104,7 +130,7 @@ Swal.fire({
           <div className='col-3'>
           <div>
                 <p className='date-tiket text-end px-3'>Kereta Api</p>
-                <p className='date-tikett text-end px-3'><span style={{fontWeight:"800"}}>Sabtu, </span>21 Februari 2023</p>
+                <p className='date-tikett text-end px-3'><span style={{fontWeight:"800"}}>Sabtu, </span>{tiket?.tanggal}</p>
               </div>
           </div>
         </div>
