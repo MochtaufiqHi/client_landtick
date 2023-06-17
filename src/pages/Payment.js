@@ -11,7 +11,7 @@ import { useContext, useState } from 'react'
 import { UserContext } from '../context/useContext'
 import { API } from '../config/api'
 
-function Payment() {
+function Payment({perhitungan}) {
   let { id } = useParams()
   let navigate = useNavigate()
 
@@ -60,7 +60,19 @@ function Payment() {
     }
   })
 
-  console.log(user)
+  let pulangPergi = 0
+  if (perhitungan?.pp === true) {
+    pulangPergi = 2
+  } else {
+    pulangPergi = 1
+  }
+
+  var total = pulangPergi*(tikets?.harga*perhitungan?.dewasa + tikets?.harga*1/2*perhitungan?.balita)
+
+  // console.log(pulangPergi)
+  // console.log(perhitungan?.pp)
+  // console.log(perhitungan?.dewasa)
+  // console.log(perhitungan?.balita)
 
   return (
     <>
@@ -97,16 +109,22 @@ function Payment() {
             <p className="rincian-harga">Rincian Harga</p>
             <div className="rounded shadow border border-secondary">
               <div className="d-flex justify-content-between">
-                <p className="p-3">{tikets?.name} (Dewasa)x{jumlah}</p>
+                <p className="p-3">{tikets?.name} (Dewasa)x{perhitungan?.dewasa}</p>
                 <p className="p-3">Rp. {tikets?.harga}</p>
               </div>
               <div className="d-flex justify-content-between">
-                <p className="p-3">{tikets?.name} (Balita)x{jumlah}</p>
+                <p className="p-3">{tikets?.name} (Balita)x{perhitungan?.balita}</p>
                 <p className="p-3">Rp. {tikets?.harga}</p>
+              </div>
+              <div className="d-flex justify-content-between">
+                {pulangPergi === 2 ?
+                
+                <p className="p-3">Pulang pergi</p> : <p></p>
+              }
               </div>
               <div className="d-flex payment-total justify-content-between mb-0">
                 <p className="p-3 payment-text">Total</p>
-                <p className="p-3 payment-price">Rp. {tikets?.harga*jumlah + tikets?.harga*1/2*jumlah}</p>
+                <p className="p-3 payment-price">Rp. {total}</p>
               </div>
             </div>
             <div className="mt-4 mb-5">

@@ -8,6 +8,8 @@ import { Link, useParams } from 'react-router-dom'
 import { useQuery } from "react-query";
 import { useContext, useState } from 'react'
 import { UserContext } from '../context/useContext'
+import Swal from "sweetalert2";
+
 
 
 function TiketSaya() {
@@ -22,6 +24,32 @@ function TiketSaya() {
     setTikets(response.data.data)
     return response.data.data
   },)
+
+  const alert = () => {
+    // <PropagateLoader color="#36d7b7" />
+    let timerInterval
+Swal.fire({
+  title: 'Memuat Data!',
+  html: 'Mohon Tunggu <b></b> milliseconds.',
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: () => {
+    Swal.showLoading()
+    const b = Swal.getHtmlContainer().querySelector('b')
+    timerInterval = setInterval(() => {
+      b.textContent = Swal.getTimerLeft()
+    }, 100)
+  },
+  willClose: () => {
+    clearInterval(timerInterval)
+  }
+}).then((result) => {
+  /* Read more about handling dismissals below */
+  if (result.dismiss === Swal.DismissReason.timer) {
+    console.log('I was closed by the timer')
+  }
+})
+  }
 
   // console.log(user)
   return (
@@ -100,7 +128,7 @@ function TiketSaya() {
             <p className='item-info'>{user?.user?.email}</p>
           </div>
           <div className='col-3'>
-            <Link to={`/payment/${id}`}>
+            <Link to={`/payment/${id}`} onClick={() => alert()}>
               <Button className='btn-bayar'>Bayar Sekarang</Button>
             </Link>
           </div>

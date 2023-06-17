@@ -8,14 +8,22 @@ import { Form, Button } from "react-bootstrap";
 import "./index.css";
 import { useContext, useState } from "react";
 import { API } from "../config/api";
+import Swal from "sweetalert2";
+// import {PropagateLoader} from 'react-spinners'
 // import { UserContext } from "../../context/useContext";
 
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
-function Home() {
-  // const [admin] = useContext(UserContext)
-  // const [admin] = useContext(UserContext)
+function Home({ handle }) {
+
+  const [asal, setAsal] = useState("")
+  const [tujuan, setTujuan] = useState("")
+  const [tanggal, setTanggal] = useState("")
+
+  // console.log(asal)
+  // console.log(tujuan)
+  // console.log(tanggal)
 
   const [tiket, setTiket] = useState();
   let { data: tikets } = useQuery("tiketCache", async () => {
@@ -25,10 +33,54 @@ function Home() {
   });
 
   const alert = () => {
+    let timerInterval;
+    Swal.fire({
+      title: "Memuat Data!",
+      html: "Mohon Tunggu <b></b> milliseconds.",
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+        const b = Swal.getHtmlContainer().querySelector("b");
+        timerInterval = setInterval(() => {
+          b.textContent = Swal.getTimerLeft();
+        }, 100);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log("I was closed by the timer");
+      }
+    });
+  };
 
+  const [form, setForm] = useState({
+    pp: false,
+    dewasa: 0,
+    balita: 0
+  })
+
+  const handleOnChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name] : e.target.value
+    })
+  }
+  const handleOnChecked = (e) => {
+    setForm({
+      ...form,
+      [e.target.name] : e.target.checked
+    })
   }
 
-  // console.log(tiket)
+  // handleHarga()
+  handle(form)
+
+  // console.log(form)
+  // console.log(handle)
 
   return (
     <>
@@ -50,10 +102,10 @@ function Home() {
             </p>
           </div>
           <div className="mt-5 d-realative">
-            <div >
+            <div>
               <img src={portal1} alt="portal" />
             </div>
-            <div style={{position:"absolute", top:"96px", right:"146px"}}>
+            <div style={{ position: "absolute", top: "96px", right: "146px" }}>
               <img src={portal2} alt="portal" />
             </div>
           </div>
@@ -62,7 +114,13 @@ function Home() {
       {/* Card Filter */}
       <div
         className="container shadow rounded card-filter mb-5 p-absolute"
-        style={{ top: "350px", right: "0px", left: "0px", background: "white", position:"absolute" }}
+        style={{
+          top: "350px",
+          right: "0px",
+          left: "0px",
+          background: "white",
+          position: "absolute",
+        }}
       >
         <div className="row">
           <div className="col-3 p-0">
@@ -87,7 +145,7 @@ function Home() {
             <Form>
               <Form.Group className="mb-3">
                 <Form.Label className="label-form-input">Asal</Form.Label>
-                <Form.Control type="email" placeholder="Jakarta" />
+                <Form.Control type="email" placeholder="Jakarta" onChange={e => setAsal(e.target.value)}/>
               </Form.Group>
             </Form>
             <div className="d-flex justify-content-between">
@@ -98,7 +156,8 @@ function Home() {
                       Tanggal Berangkat
                     </Form.Label>
                     <Form.Control
-                      type="email"
+                      type="input"
+                      onChange={e => setTanggal(e.target.value)}
                       placeholder="DD-MM-YY"
                       style={{ width: "110px" }}
                     />
@@ -111,6 +170,8 @@ function Home() {
                   type="checkbox"
                   value=""
                   id="defaultCheck1"
+                  name="pp"
+                  onChange={handleOnChecked}
                 />
                 <label
                   className="form-check-label label-form-input"
@@ -145,7 +206,7 @@ function Home() {
             <Form>
               <Form.Group className="mb-3">
                 <Form.Label className="label-form-input">Tujuan</Form.Label>
-                <Form.Control type="email" placeholder="Bandung" />
+                <Form.Control type="email" placeholder="Bandung" onChange={e => setTujuan(e.target.value)} />
               </Form.Group>
             </Form>
             <div className="d-flex justify-content-between">
@@ -156,6 +217,9 @@ function Home() {
                     <Form.Select
                       aria-label="Default select example"
                       style={{ width: "110px" }}
+                      name="dewasa"
+                      onChange={handleOnChange}
+
                     >
                       <option value="0">0</option>
                       <option value="1">1</option>
@@ -172,6 +236,8 @@ function Home() {
                     <Form.Select
                       aria-label="Default select example"
                       style={{ width: "110px" }}
+                      onChange={handleOnChange}
+                      name="balita"
                     >
                       <option value="0">0</option>
                       <option value="1">1</option>
@@ -200,33 +266,80 @@ function Home() {
         </div>
       </div>
       {/* Tiket Items */}
-      {tiket?.map((item) => {
+      {tiket?.filter((item) => {
+        if (asal == "" && tujuan == "" && tanggal == "") {
+          return item
+        } else if (item?.stasiun_awal.toLowerCase().includes(asal.toLocaleLowerCase()) && item?.stasiun_akhir.toLowerCase().includes(tujuan.toLocaleLowerCase()) && item?.tanggal.toLowerCase().includes(tanggal.toLocaleLowerCase())){
+          return item
+        }
+      })?.map((item, index) => {
         return (
-          <Link to={`/tiket-saya/${item.id}`} style={{textDecoration:"none", color:"black"}}>
-          <div className="container mt-4 border shadow rounded">
-            <div className="row text-center text-align-center">
-              <div className="col-2">
-                <p className="text-satu">{item?.name}</p>
-                <p className="text-dua">{item?.train?.name}</p>
+          <Link
+            to={`/tiket-saya/${item.id}`}
+            style={{ textDecoration: "none", color: "black" }}
+            onClick={() => alert()}
+          >
+            <div className="container mt-4 border shadow rounded" key={index}>
+              <div className="row text-center text-align-center">
+                <div className="col-2">
+                  <p className="text-satu">{item?.name}</p>
+                  <p className="text-dua">{item?.train?.name}</p>
+                </div>
+                <div className="col-2">
+                  <p className="text-satu">{item?.jam_berangkat}</p>
+                  <p className="text-dua">{item?.stasiun_awal}</p>
+                </div>
+                <div className="col-1">
+                  <img src={arrow} alt="arrow" style={{ marginTop: "44px" }} />
+                </div>
+                <div className="col-2">
+                  <p className="text-satu">{item?.jam_tiba}</p>
+                  <p className="text-dua">{item?.stasiun_akhir}</p>
+                </div>
+                <div className="col-2 text-satu">2 Jam 10 Menit</div>
+                <div className="col-3 text-harga">Rp. {item?.harga}</div>
               </div>
-              <div className="col-2">
-                <p className="text-satu">{item?.jam_berangkat}</p>
-                <p className="text-dua">{item?.stasiun_awal}</p>
-              </div>
-              <div className="col-1">
-                <img src={arrow} alt="arrow" style={{ marginTop: "44px" }} />
-              </div>
-              <div className="col-2">
-                <p className="text-satu">{item?.jam_tiba}</p>
-                <p className="text-dua">{item?.stasiun_akhir}</p>
-              </div>
-              <div className="col-2 text-satu">2 Jam 10 Menit</div>
-              <div className="col-3 text-harga">Rp. {item?.harga}</div>
             </div>
-          </div>
+          </Link>
+        );
+      })
+      
+      }
+
+{/*
+      {tiket?.map((item, index) => {
+        return (
+          <Link
+            to={`/tiket-saya/${item.id}`}
+            style={{ textDecoration: "none", color: "black" }}
+            onClick={() => alert()}
+          >
+            <div className="container mt-4 border shadow rounded" key={index}>
+              <div className="row text-center text-align-center">
+                <div className="col-2">
+                  <p className="text-satu">{item?.name}</p>
+                  <p className="text-dua">{item?.train?.name}</p>
+                </div>
+                <div className="col-2">
+                  <p className="text-satu">{item?.jam_berangkat}</p>
+                  <p className="text-dua">{item?.stasiun_awal}</p>
+                </div>
+                <div className="col-1">
+                  <img src={arrow} alt="arrow" style={{ marginTop: "44px" }} />
+                </div>
+                <div className="col-2">
+                  <p className="text-satu">{item?.jam_tiba}</p>
+                  <p className="text-dua">{item?.stasiun_akhir}</p>
+                </div>
+                <div className="col-2 text-satu">2 Jam 10 Menit</div>
+                <div className="col-3 text-harga">Rp. {item?.harga}</div>
+              </div>
+            </div>
           </Link>
         );
       })}
+ */}
+
       {/* <div className="container mt-4 border shadow rounded">
       <div className="row text-center text-align-center">
         <div className="col-2">
