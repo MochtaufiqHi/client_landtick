@@ -24,6 +24,7 @@ function Navigation() {
   const handleShow = () => setShow(true);
 
   const [state, disptch] = useContext(UserContext)
+  
   console.log(state)
 
   var user = state.role;

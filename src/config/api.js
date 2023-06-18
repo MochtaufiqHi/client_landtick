@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const API = axios.create({
-  baseURL: 'http://localhost:1323/api/v1/'
+  baseURL: process.env.REACT_APP_BASE_URL,
 })
 
 export const TRAIN = axios.create({

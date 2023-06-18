@@ -79,7 +79,7 @@ function Home({ handle }) {
   // handleHarga()
   handle(form)
 
-  // console.log(form)
+  // console.log(tiket)
   // console.log(handle)
 
   return (
@@ -175,7 +175,7 @@ function Home({ handle }) {
                 />
                 <label
                   className="form-check-label label-form-input"
-                  for="defaultCheck1"
+                  // for="defaultCheck1"
                 >
                   Pulang Pergi
                 </label>

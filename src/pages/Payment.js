@@ -7,7 +7,7 @@ import bulat1 from '../assets/image/bulat1.png'
 import bulat2 from '../assets/image/bulat2.png'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from "react-query";
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../context/useContext'
 import { API } from '../config/api'
 
@@ -16,18 +16,35 @@ function Payment({perhitungan}) {
   let navigate = useNavigate()
 
   const [user] = useContext(UserContext)
+  console.log(user)
 
   const [tikets, setTikets] = useState()
 
-  const [jumlah, setJumlah] = useState(4)
+  const [jumlah, setJumlah] = useState(1)
 
   var total = tikets?.harga*jumlah + tikets?.harga*1/2*jumlah
 
   let { data : tiket } = useQuery("tiketCache", async () => {
     const response = await API.get("/tiket/" + id)
-    setTikets(response.data.data)
+      setTikets(response.data.data)
+      return response.data.data
+  }, {refetchOnMount:true})
+
+  const [dataStasiun, setDataStasiun] = useState()
+
+  let {data : stasiunOK} = useQuery("stasiiiunnnCache", async () => {
+    const response = await API.get(`/station/${tikets && tikets?.stasiun_awal}`)
+    setDataStasiun(response.data.data)
     return response.data.data
-  },)
+  })
+
+  const [dataStasiunAkhir, setDataStasiunAkhir] = useState()
+
+  let {data : stasiunAkhir} = useQuery("stasiiiiunnCache", async () => {
+    const response = await API.get("/station/" + tikets?.stasiun_akhir)
+    setDataStasiunAkhir(response.data.data)
+    return response.data.data
+  })
 
   const bayarSekarang = useMutation(async (e) => {
     try {
@@ -54,9 +71,31 @@ function Payment({perhitungan}) {
 
       const response = await API.post("/transaksi", body, config)
       console.log("transaction success :", response)
-      navigate("/")
+      
+      const token = response.data.data.token;
+      window.snap.pay(token, {
+        onSuccess: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          navigate("/tiket");
+        },
+        onPending: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          navigate("/tiket");
+        },
+        onError: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          navigate("/tiket");
+        },
+        onClose: function () {
+          /* You may add your own implementation here */
+          alert("you closed the popup without finishing the payment");
+        },
+      });
     } catch (error) {
-      console.log("transaction failed :", error)
+      console.log("transaction failed : aduhhhhh", error)
     }
   })
 
@@ -69,21 +108,25 @@ function Payment({perhitungan}) {
 
   var total = pulangPergi*(tikets?.harga*perhitungan?.dewasa + tikets?.harga*1/2*perhitungan?.balita)
 
-  const [dataStasiun, setDataStasiun] = useState()
+ 
 
-    let {data : stasiunOK} = useQuery("stasiiiunnnCache", async () => {
-      const response = await API.get("/station/" + tikets?.stasiun_awal)
-      setDataStasiun(response.data.data)
-      return response.data.data
-    })
-
-    const [dataStasiunAkhir, setDataStasiunAkhir] = useState()
-
-    let {data : stasiunAkhir} = useQuery("stasiiiiunnCache", async () => {
-      const response = await API.get("/station/" + tikets?.stasiun_akhir)
-      setDataStasiunAkhir(response.data.data)
-      return response.data.data
-    })
+    useEffect(() => {
+      //change this to the script source you want to load, for example this is snap.js sandbox env
+      const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+      //change this according to your client-key
+      const myMidtransClientKey = process.env.REACT_APP_MIDTRANS_CLIENT_KEY;
+  
+      let scriptTag = document.createElement("script");
+      scriptTag.src = midtransScriptUrl;
+      // optional if you want to set script attribute
+      // for example snap.js have data-client-key attribute
+      scriptTag.setAttribute("data-client-key", myMidtransClientKey);
+  
+      document.body.appendChild(scriptTag);
+      return () => {
+        document.body.removeChild(scriptTag);
+      };
+    }, []);    
 
   return (
     <>

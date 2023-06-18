@@ -52,8 +52,8 @@ function Tiket() {
                     </div>
                     <p className="nama-kereta">{data?.tiket?.name}</p>
                     <p className="kelas-kereta">{data?.tiket?.train?.name}</p>
-                    <p className="status" style={{ color: "#F7941E" }}>
-                      Status
+                    <p className="status" style={{ color: "green" }}>
+                      {data?.status}
                     </p>
                   </div>
                   <div className="col-3">
